@@ -112,13 +112,13 @@ void motor_control()
     constrain(left_motor_speed,0,255);
     constrain(right_motor_speed,0,255);
   
-  analogWrite(9,initial_motor_speed-PID_value);   //Left Motor Speed
-    analogWrite(10,initial_motor_speed+PID_value);  //Right Motor Speed
+  analogWrite(5,initial_motor_speed-PID_value);   //Left Motor Speed
+    analogWrite(6,initial_motor_speed+PID_value);  //Right Motor Speed
     //following lines of code are to make the bot move forward
     /*The pin numbers and high, low values might be different
     depending on your connections */
     digitalWrite(4,HIGH);
-    digitalWrite(5,LOW);
-    digitalWrite(6,LOW);
-    digitalWrite(7,HIGH);
+    digitalWrite(3,LOW);
+    digitalWrite(9,LOW);
+    digitalWrite(8,HIGH);
 }

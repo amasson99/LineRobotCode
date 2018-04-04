@@ -5,6 +5,10 @@ int SENS3 = A1;
 int SENS4 = A0;
 int SENS5 = A7;
 
+int LED1 = 13;
+int LED2 = 12;
+int LED3 = 11;
+
 int SENS_Control = A4;
 
 int SENS_MIN[5] = {1024,1024,1024,1024,1024};
@@ -31,10 +35,12 @@ bool CAL = false;
 //Controller variables
 float Left_Error = 0;
 float Right_Error = 0;
+float Left_Error1 = 0;
+float Right_Error1 = 0;
 
 int Kp = 100;
 
-int Speed = 20;
+int Speed = 40;
 
 void setup() {
   pinMode(SENS1, INPUT);
@@ -65,6 +71,14 @@ void setup() {
   digitalWrite(MA2, LOW);
   digitalWrite(MB1, HIGH);
   digitalWrite(MB2, LOW);
+
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, HIGH);
+  digitalWrite(LED3, HIGH);
   //Serial port
   Serial.begin(9600);
 }
@@ -105,20 +119,25 @@ void loop() {
     //following the line
     if(CAL)
     {
+      
       SENS_Values[0] = analogRead(SENS1);
       SENS_Values[1] = analogRead(SENS2);
       SENS_Values[2] = analogRead(SENS3);
       SENS_Values[3] = analogRead(SENS4);
       SENS_Values[4] = analogRead(SENS5);
+
+      constrain(Left_Error,0,255);
+      constrain(Right_Error,0,255);
       
       Left_Error = SENS_Values[1] - SENS_MIN[1];
       Right_Error = SENS_Values[3] - SENS_MIN[3];
+      
 
-      Left_Error = Left_Error/(SENS_MAX[1] - SENS_MIN[1]);
-      Right_Error = Left_Error/(SENS_MAX[3] - SENS_MIN[3]);
+      Left_Error1 = Left_Error/(SENS_MAX[1] - SENS_MIN[1]);
+      Right_Error1 = Right_Error/(SENS_MAX[3] - SENS_MIN[3]);
 
-      analogWrite(PWMB, Speed + Kp*Left_Error);
-      analogWrite(PWMA, Speed + Kp*Right_Error);
+      analogWrite(PWMB, Speed + (Kp*Left_Error1));
+      analogWrite(PWMA, Speed + (Kp*Right_Error1));
     }
 
 }
