@@ -32,7 +32,7 @@ float Right_Error = 0;
 
 int Kp = 185;//proven at 185
 
-int Speed = 50;//proven at 50
+int Speed = 70;//proven at 50
 void setup()
 {
   // sensor pins as input
